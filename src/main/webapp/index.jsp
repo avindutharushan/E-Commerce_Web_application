@@ -180,7 +180,7 @@
                 </li>
             </ul>
             <div class="d-flex">
-                <a href="/cart.html" class="btn me-0">
+                <a href="pages/cart.jsp" class="btn me-0">
                     <i class="bi bi-cart fs-4"></i>
                 </a>
                 <a class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
