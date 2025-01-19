@@ -1,3 +1,10 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: shan
+  Date: 1/19/25
+  Time: 11:45 PM
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -342,10 +349,10 @@
                     <input type="password" class="form-control" id="password" name="password" required />
                 </div>
                 <button type="submit" class="btn btn-dark w-100 mb-2">Login</button>
-                <button type="button" class="btn btn-outline-dark w-100" onclick="window.location.href='register.jsp'">Create Account</button>
+                <button type="button" class="btn btn-outline-dark w-100" onclick="window.location.href='pages/register.jsp'">Create Account</button>
             </form>
             <div class="text-center mt-3">
-                <a href="#" class="text-muted">Forgot password?</a>
+                <a href="pages/forget-password.jsp" class="text-muted">Forgot password?</a>
             </div>
         </div>
         <% } %>
