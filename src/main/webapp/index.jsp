@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,14 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>E-commerce Store</title>
     <!-- Bootstrap CSS -->
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-    />
-    <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <style>
         * {
             font-family: "Merriweather", serif;
@@ -148,27 +143,16 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg sticky-top p-0">
     <div class="container-fluid mx-5">
-        <a class="navbar-brand d-flex" href="#"
-        ><img
-                src="assets/images/logo.png"
-                style="margin-top: -6px"
-                width="50"
-                alt=""
-        />
-            <h3  class="brand mt-1">Meduza</h3></a
-        >
+        <a class="navbar-brand d-flex" href="#">
+            <img src="assets/images/logo.png" style="margin-top: -6px" width="50" alt="" />
+            <h3 class="brand mt-1">Meduza</h3></a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item dropdown d-flex">
                     <button type="button" class="btn nav-link">
                         <a class="nav-link p-0" href="#products">Categories</a>
                     </button>
-                    <button
-                            type="button"
-                            class="btn dropdown-toggle dropdown-toggle-split"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                    >
+                    <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="visually-hidden">Toggle Dropdown</span>
                     </button>
                     <ul class="dropdown-menu">
@@ -192,13 +176,7 @@
                 <a href="/cart.html" class="btn me-0">
                     <i class="bi bi-cart fs-4"></i>
                 </a>
-                <a
-                        class="btn"
-                        type="button"
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasRight"
-                        aria-controls="offcanvasRight"
-                >
+                <a class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                     <i class="bi bi-person-circle fs-4"></i>
                 </a>
             </div>
@@ -209,29 +187,9 @@
 <!-- Hero Section -->
 <section class="hero-section">
     <div class="main-container">
-        <video
-                class="position-absolute p-0 mb-0"
-                style="
-            z-index: -1;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100vw;
-          "
-                src="assets/videos/intro.mp4"
-                autoplay
-                muted
-        ></video>
-        <div
-                class="hero-content mt-0 m-5"
-                style="
-            background-color: transparent;
-            z-index: 1;
-            color: white;
-            padding-top: 180px !important;
-            padding: 50px;
-          "
-        >
-            <h1  class="brand display-4 fw-bold mb-4">Meduza</h1>
+        <video class="position-absolute p-0 mb-0" style="z-index: -1; left: 50%; transform: translateX(-50%); width: 100vw;" src="assets/videos/intro.mp4" autoplay muted></video>
+        <div class="hero-content mt-0 m-5" style="background-color: transparent; z-index: 1; color: white; padding-top: 180px !important; padding: 50px;">
+            <h1 class="brand display-4 fw-bold mb-4">Meduza</h1>
             <p class="lead mb-4">Clothing Collections</p>
             <p class="mb-5" style="text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5)">
                 Step into the world of <b>Curated Clothing Collection</b>, where
@@ -254,11 +212,7 @@
         <div class="row">
             <div class="col-6 p-0">
                 <div class="category-card">
-                    <img
-                            src="assets/images/home/boutique-6796399_1280.jpg"
-                            alt="New Arrivals"
-                            class="w-100 h-100 object-fit-cover"
-                    />
+                    <img src="assets/images/home/boutique-6796399_1280.jpg" alt="New Arrivals" class="w-100 h-100 object-fit-cover" />
                     <div class="category-content ms-3">
                         <h3>New Arrivals</h3>
                         <p class="mb-3">Our new items are designed right to impress.</p>
@@ -270,11 +224,7 @@
             </div>
             <div class="col-6 p-0" style="width: 49%">
                 <div class="category-card">
-                    <img
-                            src="assets/images/home/clothing-3221103_1280.jpg"
-                            alt="Accessories"
-                            class="w-100 h-100 object-fit-cover"
-                    />
+                    <img src="assets/images/home/clothing-3221103_1280.jpg" alt="Accessories" class="w-100 h-100 object-fit-cover" />
                     <div class="category-content">
                         <h3>Best Sellers</h3>
                         <p class="mb-3">Complete your look with our best collection.</p>
@@ -295,11 +245,7 @@
         <div class="row g-4">
             <div class="col-md-4 col-lg-3">
                 <div class="card product-card">
-                    <img
-                            src="assets/images/home/tshirt.jpeg"
-                            class="card-img-top"
-                            alt="Product"
-                    />
+                    <img src="assets/images/home/tshirt.jpeg" class="card-img-top" alt="Product" />
                     <div class="card-body">
                         <h5 class="card-title">Classic T-Shirt</h5>
                         <p class="card-text">Men | Women</p>
@@ -308,11 +254,7 @@
             </div>
             <div class="col-md-4 col-lg-3">
                 <div class="card product-card">
-                    <img
-                            src="assets/images/home/cropped-top.jpeg"
-                            class="card-img-top"
-                            alt="Product"
-                    />
+                    <img src="assets/images/home/cropped-top.jpeg" class="card-img-top" alt="Product" />
                     <div class="card-body">
                         <h5 class="card-title">Cropped Top</h5>
                         <p class="card-text">Women</p>
@@ -321,24 +263,16 @@
             </div>
             <div class="col-md-4 col-lg-3">
                 <div class="card product-card">
-                    <img
-                            src="assets/images/home/collerd-tshirt.jpeg"
-                            class="card-img-top"
-                            alt="Product"
-                    />
+                    <img src="assets/images/home/collerd-tshirt.jpeg" class="card-img-top" alt="Product" />
                     <div class="card-body">
-                        <h5 class="card-title">Collered T-Shirt</h5>
+                        <h5 class="card-title">Collared T-Shirt</h5>
                         <p class="card-text">Men</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 col-lg-3">
                 <div class="card product-card">
-                    <img
-                            src="assets/images/home/long-sleeved.png"
-                            class="card-img-top"
-                            alt="Product"
-                    />
+                    <img src="assets/images/home/long-sleeved.png" class="card-img-top" alt="Product" />
                     <div class="card-body">
                         <h5 class="card-title">Long Sleeved</h5>
                         <p class="card-text">Men | Women</p>
@@ -350,30 +284,14 @@
 </section>
 
 <!-- Newsletter Section -->
-<section
-        class="py-5"
-        id="contact"
-        style="
-        background-image: url(assets/images/home/dress-2583113_1280.jpg);
-        object-fit: cover;
-        height: 300px;
-      "
->
+<section class="py-5" id="contact" style="background-image: url(assets/images/home/dress-2583113_1280.jpg); object-fit: cover; height: 300px;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-6 text-center">
                 <h3>Subscribe to Our Newsletter</h3>
                 <p>Get updates about new products and special offers!</p>
                 <div class="input-group mb-3">
-                    <input
-                            type="email"
-                            class="form-control"
-                            style="
-                  border-color: black;
-                  background-color: rgba(241, 225, 235, 0.76);
-                "
-                            placeholder="Enter your email"
-                    />
+                    <input type="email" class="form-control" style="border-color: black; background-color: rgba(241, 225, 235, 0.76);" placeholder="Enter your email" />
                     <button class="btn btn-dark" type="button">Subscribe</button>
                 </div>
             </div>
@@ -381,70 +299,34 @@
     </div>
 </section>
 
-<!--  Profile Section -->
-<div
-        class="offcanvas offcanvas-end"
-        tabindex="-1"
-        id="offcanvasRight"
-        aria-labelledby="offcanvasRightLabel"
->
+<!-- Profile Section -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header border-bottom">
         <h5 class="offcanvas-title" id="offcanvasRightLabel">My Profile</h5>
-        <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="offcanvas"
-                aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body p-0">
         <% if (session.getAttribute("user") != null) { %>
         <!-- Logged In View -->
         <div class="profile-header">
-            <img
-                    src="/api/placeholder/80/80"
-                    alt="Profile Picture"
-                    class="profile-avatar"
-            />
+            <img src="/api/placeholder/80/80" alt="Profile Picture" class="profile-avatar" />
             <h5 class="mb-1"><%= session.getAttribute("userName") %></h5>
-            <p class="text-muted mb-0">
-                <%= session.getAttribute("userEmail") %>
-            </p>
+            <p class="text-muted mb-0"><%= session.getAttribute("userEmail") %></p>
         </div>
         <ul class="profile-menu">
-            <li>
-                <a href="#"><i class="bi bi-person"></i> My Profile</a>
-            </li>
-            <li>
-                <a href="#"><i class="bi bi-bag"></i> My Orders</a>
-            </li>
-            <li>
-                <a href="#"><i class="bi bi-heart"></i> Wishlist</a>
-            </li>
-            <li>
-                <a href="#"><i class="bi bi-geo-alt"></i> Addresses</a>
-            </li>
-            <li>
-                <a href="#"><i class="bi bi-credit-card"></i> Payment Methods</a>
-            </li>
-            <li>
-                <a href="#"><i class="bi bi-gear"></i> Settings</a>
-            </li>
-            <li>
-                <a href="logout.jsp" class="text-danger"
-                ><i class="bi bi-box-arrow-right"></i> Logout</a
-                >
-            </li>
+            <li><a href="#"><i class="bi bi-person"></i> My Profile</a></li>
+            <li><a href="#"><i class="bi bi-bag"></i> My Orders</a></li>
+            <li><a href="#"><i class="bi bi-heart"></i> Wishlist</a></li>
+            <li><a href="#"><i class="bi bi-geo-alt"></i> Addresses</a></li>
+            <li><a href="#"><i class="bi bi-credit-card"></i> Payment Methods</a></li>
+            <li><a href="#"><i class="bi bi-gear"></i> Settings</a></li>
+            <li><a href="logout.jsp" class="text-danger"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
         </ul>
         <% } else { %>
         <!-- Logged Out View -->
         <div class="profile-header p-5 w-100">
             <div class="d-flex justify-content-center w-100">
-                <img
-                        width="120"
-                        src="assets/images/logo.png"
-                        alt="Profile Picture"
-                />
+                <img width="120" src="assets/images/logo.png" alt="Profile Picture" />
             </div>
             <h4 class="text-center">Welcome to Meduza</h4>
             <p class="text-muted text-center">Sign in to access your account</p>
@@ -453,32 +335,14 @@
             <form action="loginProcess.jsp" method="POST">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
-                    <input
-                            type="email"
-                            class="form-control"
-                            id="email"
-                            name="email"
-                            required
-                    />
+                    <input type="email" class="form-control" id="email" name="email" required />
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input
-                            type="password"
-                            class="form-control"
-                            id="password"
-                            name="password"
-                            required
-                    />
+                    <input type="password" class="form-control" id="password" name="password" required />
                 </div>
                 <button type="submit" class="btn btn-dark w-100 mb-2">Login</button>
-                <button
-                        type="button"
-                        class="btn btn-outline-dark w-100"
-                        onclick="window.location.href='register.jsp'"
-                >
-                    Create Account
-                </button>
+                <button type="button" class="btn btn-outline-dark w-100" onclick="window.location.href='register.jsp'">Create Account</button>
             </form>
             <div class="text-center mt-3">
                 <a href="#" class="text-muted">Forgot password?</a>
