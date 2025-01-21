@@ -63,7 +63,7 @@
                 </h3>
 
                 <!-- Registration Form -->
-                <form action="<%= request.getContextPath() %>/register" method="POST">
+                <form action="../user" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
                         <input
                                 type="text"
@@ -108,7 +108,11 @@
                         />
                     </div>
 
-                    <button type="submit" class="btn btn-dark w-100 mb-3">
+                    <div class="mb-3">
+                    <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                    </div>
+
+                    <button type="submit" name="action" value="register" class="btn btn-dark w-100 mb-3">
                         Create Account
                     </button>
                 </form>

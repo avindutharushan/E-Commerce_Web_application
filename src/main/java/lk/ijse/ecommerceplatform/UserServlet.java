@@ -1,10 +1,11 @@
 package lk.ijse.ecommerceplatform;
 
 import java.io.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.sql.*;
 
 import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;
@@ -15,6 +16,11 @@ import lk.ijse.ecommerceplatform.dto.UserDTO;
 import javax.sql.DataSource;
 
 @WebServlet(name = "user", value = "/user")
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50 // 50MB
+)
 public class UserServlet extends HttpServlet {
     @Resource(name = "java:comp/env/jdbc/pool")
     private DataSource dataSource;
@@ -28,7 +34,7 @@ public class UserServlet extends HttpServlet {
         } else if ("delete".equals(action)) {
             // deleteCategory(request, response);
         }else if ("register".equals(action)) {
-            //register(request, response);
+            register(req, resp);
         }
     }
 
@@ -107,6 +113,84 @@ public class UserServlet extends HttpServlet {
         }
     }
 
+    private void register(HttpServletRequest req, HttpServletResponse resp){
+        try {
+            String fullName = req.getParameter("fullName");
+            String email = req.getParameter("email");
+            String password = req.getParameter("password");
+            String confirmPassword = req.getParameter("confirmPassword");
+            Part imagePart = req.getPart("image");
+
+            if (!password.equals(confirmPassword)) {
+                req.setAttribute("error", "Passwords do not match");
+                req.getRequestDispatcher("register.jsp").forward(req, resp);
+                return;
+            }
+
+            if (isEmailExists(email)) {
+                req.setAttribute("error", "Email already registered");
+                req.getRequestDispatcher("register.jsp").forward(req, resp);
+                return;
+            }
+
+            String imageFileName = null;
+            if (imagePart != null && imagePart.getSize() > 0) {
+                imageFileName = saveImageToFolder(imagePart);
+            }else {
+                imageFileName = "default-user-image.png";
+            }
+
+
+
+            resp.sendRedirect("admin.jsp?status=success&alert=Product Saved Successfully!");
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private String saveImageToFolder(Part filePart) {
+        String imageFileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // Sanitize filename
+
+        String uploadDir = "/home/shan/IdeaProjects/E-Commerce-Platform/src/main/webapp/assets/images/users";
+        Path uploadDirectory = Paths.get(uploadDir);
+
+        try {
+            // Create directory if it doesn't exist
+            if (!Files.exists(uploadDirectory)) {
+                Files.createDirectories(uploadDirectory);
+            }
+
+            // Generate a unique file name to prevent overwriting
+            String uniqueFileName = System.currentTimeMillis() + "_" + imageFileName;
+            Path imageFilePath = uploadDirectory.resolve(uniqueFileName);
+
+            // Save the file
+            try (InputStream inputStream = filePart.getInputStream()) {
+                Files.copy(inputStream, imageFilePath, StandardCopyOption.REPLACE_EXISTING);
+            }
+            return uniqueFileName;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private boolean isEmailExists(String email)  {
+        String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
 
 
 
