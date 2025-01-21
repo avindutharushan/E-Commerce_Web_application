@@ -15,8 +15,8 @@ CREATE TABLE categories (
     category_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
     description TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+    image_url VARCHAR(255)
+    );
 
 -- Products table with CASCADE
 CREATE TABLE products (
@@ -27,7 +27,6 @@ CREATE TABLE products (
     price DECIMAL(10,2) NOT NULL,
     stock_quantity INT NOT NULL,
     image_url VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (category_id)
         REFERENCES categories(category_id)
         ON UPDATE CASCADE
@@ -42,7 +41,6 @@ CREATE TABLE users (
     name VARCHAR(50) NOT NULL,
     role ENUM('ADMIN', 'CUSTOMER') DEFAULT 'CUSTOMER',
     is_active BOOLEAN DEFAULT true,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Cart table with CASCADE
@@ -51,7 +49,6 @@ CREATE TABLE cart (
     user_id INT,
     product_id INT,
     quantity INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id)
         REFERENCES users(user_id)
         ON UPDATE CASCADE
@@ -69,7 +66,6 @@ CREATE TABLE orders (
     total_amount DECIMAL(10,2) NOT NULL,
     status ENUM('PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED') DEFAULT 'PENDING',
     shipping_address TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id)
         REFERENCES users(user_id)
         ON UPDATE CASCADE

@@ -1,4 +1,5 @@
-<%--
+<%@ page import="lk.ijse.ecommerceplatform.dto.CategoryDTO" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: shan
   Date: 1/19/25
@@ -6,6 +7,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -249,46 +251,12 @@
 <section id="products" class="section-padding bg-light pb-5">
     <div class="main-container">
         <h2 class="text-center mb-5">Our Products</h2>
-        <div class="row g-4">
-            <div class="col-md-4 col-lg-3">
-                <div class="card product-card">
-                    <img src="assets/images/home/tshirt.jpeg" class="card-img-top" alt="Product" />
-                    <div class="card-body">
-                        <h5 class="card-title">Classic T-Shirt</h5>
-                        <p class="card-text">Men | Women</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-lg-3">
-                <div class="card product-card">
-                    <img src="assets/images/home/cropped-top.jpeg" class="card-img-top" alt="Product" />
-                    <div class="card-body">
-                        <h5 class="card-title">Cropped Top</h5>
-                        <p class="card-text">Women</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-lg-3">
-                <div class="card product-card">
-                    <img src="assets/images/home/collerd-tshirt.jpeg" class="card-img-top" alt="Product" />
-                    <div class="card-body">
-                        <h5 class="card-title">Collared T-Shirt</h5>
-                        <p class="card-text">Men</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-lg-3">
-                <div class="card product-card">
-                    <img src="assets/images/home/long-sleeved.png" class="card-img-top" alt="Product" />
-                    <div class="card-body">
-                        <h5 class="card-title">Long Sleeved</h5>
-                        <p class="card-text">Men | Women</p>
-                    </div>
-                </div>
-            </div>
+        <div class="row g-4 " id="category-content">
+
         </div>
     </div>
 </section>
+
 
 <!-- Newsletter Section -->
 <section class="py-5" id="contact" style="background-image: url(assets/images/home/dress-2583113_1280.jpg); object-fit: cover; height: 300px;">
@@ -327,7 +295,7 @@
             <li><a href="#"><i class="bi bi-geo-alt"></i> Addresses</a></li>
             <li><a href="#"><i class="bi bi-credit-card"></i> Payment Methods</a></li>
             <li><a href="#"><i class="bi bi-gear"></i> Settings</a></li>
-            <li><a href="logout.jsp" class="text-danger"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+            <li><a href="logout" class="text-danger"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
         </ul>
         <% } else { %>
         <!-- Logged Out View -->
@@ -339,7 +307,7 @@
             <p class="text-muted text-center">Sign in to access your account</p>
         </div>
         <div class="login-form p-3">
-            <form action="loginProcess.jsp" method="POST">
+            <form action="login" method="get">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
                     <input type="email" class="form-control" id="email" name="email" required />
@@ -385,6 +353,41 @@
         </div>
     </div>
 </footer>
+<script src="js/jquery-3.7.1.min.js"></script>
+<script>
+    const fetchCategories = () => {
+        $.ajax({
+            url: "http://localhost:8080/Meduza/category-all",
+            type: "GET",
+            success: (res) => {
+                $("#category-content").empty();
+
+                res.data.forEach((category) => {
+
+                    $("#category-content").append(
+                        '<div class="col-md-4 col-lg-3">' +
+                        '<div class="card product-card">' +
+                        '<img src="' + category.image_url + '" class="card-img-top" alt="Product" />' +
+                        '<div class="card-body">' +
+                        '<h5 class="card-title">' + category.name + '</h5>' +
+                        '<p class="card-text">' + category.description + '</p>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>'
+                    );
+                });
+            },
+            error: (err) => {
+                console.error("GET Error:", err);
+                alert("Failed to fetch data. Please try again later.");
+            },
+        });
+    };
+
+    $(document).ready(() => {
+        fetchCategories();
+    });
+</script>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
