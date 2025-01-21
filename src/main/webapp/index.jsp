@@ -182,7 +182,7 @@
                 </li>
             </ul>
             <div class="d-flex">
-                <a href="pages/cart.jsp" class="btn me-0">
+                <a href="cart" class="btn me-0">
                     <i class="bi bi-cart fs-4"></i>
                 </a>
                 <a class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
@@ -284,9 +284,20 @@
         <% if (session.getAttribute("user") != null) { %>
         <!-- Logged In View -->
         <div class="profile-header">
-            <img src="/api/placeholder/80/80" alt="Profile Picture" class="profile-avatar" />
+            <img src="<%=session.getAttribute("userImage")%>" alt="Profile Picture" class="profile-avatar" />
             <h5 class="mb-1"><%= session.getAttribute("userName") %></h5>
             <p class="text-muted mb-0"><%= session.getAttribute("userEmail") %></p>
+
+        <% if(session.getAttribute("isActive").equals(true)){%>
+            <i class="bi bi-circle-fill d-flex justify-content-center" style="color:#18e718"><p style="margin: -3px 0 0 5px">Active</p></i>
+            <%
+        }else{
+        %>
+            <i class="bi bi-circle-fill d-flex justify-content-center" style="color: red"><p style="margin: -3px 0 0 5px">Deactivated</p></i>
+            <%
+                }
+            %>
+
         </div>
         <ul class="profile-menu">
             <li><a href="#"><i class="bi bi-person"></i> My Profile</a></li>
@@ -295,7 +306,7 @@
             <li><a href="#"><i class="bi bi-geo-alt"></i> Addresses</a></li>
             <li><a href="#"><i class="bi bi-credit-card"></i> Payment Methods</a></li>
             <li><a href="#"><i class="bi bi-gear"></i> Settings</a></li>
-            <li><a href="logout" class="text-danger"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+            <li><a href="user?action=logout" class="text-danger"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
         </ul>
         <% } else { %>
         <!-- Logged Out View -->
@@ -307,7 +318,7 @@
             <p class="text-muted text-center">Sign in to access your account</p>
         </div>
         <div class="login-form p-3">
-            <form action="login" method="get">
+            <form action="user" method="get">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
                     <input type="email" class="form-control" id="email" name="email" required />
@@ -316,7 +327,7 @@
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" id="password" name="password" required />
                 </div>
-                <button type="submit" class="btn btn-dark w-100 mb-2">Login</button>
+                <button type="submit" name="action" value="login" class="btn btn-dark w-100 mb-2">Login</button>
                 <button type="button" class="btn btn-outline-dark w-100" onclick="window.location.href='pages/register.jsp'">Create Account</button>
             </form>
             <div class="text-center mt-3">
@@ -357,7 +368,7 @@
 <script>
     const fetchCategories = () => {
         $.ajax({
-            url: "http://localhost:8080/Meduza/category-all",
+            url: "http://localhost:8080/Meduza/category",
             type: "GET",
             success: (res) => {
                 $("#category-content").empty();

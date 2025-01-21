@@ -14,30 +14,63 @@ import lk.ijse.ecommerceplatform.dto.UserDTO;
 
 import javax.sql.DataSource;
 
-@WebServlet(name = "login", value = "/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "user", value = "/user")
+public class UserServlet extends HttpServlet {
     @Resource(name = "java:comp/env/jdbc/pool")
     private DataSource dataSource;
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("action");
 
-        UserDTO user = validateUser(email, password);
-
-        if (user != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("user", user);
-            session.setAttribute("userName", user.getName());
-            session.setAttribute("userEmail", user.getEmail());
-
-            response.sendRedirect("index.jsp");
-        } else {
-            response.sendRedirect("login.jsp?error=true");
+        if ("update".equals(action)) {
+            // updateCategory(request, response);
+        } else if ("delete".equals(action)) {
+            // deleteCategory(request, response);
+        }else if ("register".equals(action)) {
+            //register(request, response);
         }
     }
-    private UserDTO validateUser(String email, String password) {
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        System.out.println(action);
+        if ("login".equals(action)) {
+            loginUser(request, response);
+        } else if ("update".equals(action)) {
+           // updateCategory(request, response);
+        } else if ("delete".equals(action)) {
+           // deleteCategory(request, response);
+        }else if ("logout".equals(action)) {
+            logout(request, response);
+        }else if ("register".equals(action)) {
+            //register(request, response);
+        }
+
+    }
+
+    private void logout(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession(false);
+
+        if (session != null) {
+            session.removeAttribute("user");
+            session.removeAttribute("userName");
+            session.removeAttribute("userEmail");
+
+            session.invalidate();
+        }
+
+        try {
+            response.sendRedirect("index.jsp");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void loginUser(HttpServletRequest request, HttpServletResponse response) {
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
 
         try {
             if (email != null && password != null) {
@@ -52,16 +85,28 @@ public class LoginServlet extends HttpServlet {
                     String name = resultSet.getString("name");
                     String role = resultSet.getString("role");
                     boolean isActive = resultSet.getBoolean("is_active");
+                    String image_url = resultSet.getString("image_url");
 
-                    UserDTO user = new UserDTO(id, email, password, name, role, isActive);
-                    return user;
+                    UserDTO user = new UserDTO(id, email, null, name, role, isActive,image_url);
+
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", user);
+                    session.setAttribute("userName", user.getName());
+                    session.setAttribute("userEmail", user.getEmail());
+                    session.setAttribute("userImage", user.getImage_url());
+                    session.setAttribute("isActive", user.isActive());
+
+                    response.sendRedirect("index.jsp");
+                }else {
+                    response.sendRedirect("login.jsp?error=no user found");
                 }
                 connection.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return null;
     }
 
 

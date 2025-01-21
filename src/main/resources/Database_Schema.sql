@@ -41,6 +41,7 @@ CREATE TABLE users (
     name VARCHAR(50) NOT NULL,
     role ENUM('ADMIN', 'CUSTOMER') DEFAULT 'CUSTOMER',
     is_active BOOLEAN DEFAULT true,
+    image_url VARCHAR(255)
 );
 
 -- Cart table with CASCADE
