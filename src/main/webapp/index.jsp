@@ -1,5 +1,6 @@
 <%@ page import="lk.ijse.ecommerceplatform.dto.CategoryDTO" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="lk.ijse.ecommerceplatform.dto.UserDTO" %><%--
   Created by IntelliJ IDEA.
   User: shan
   Date: 1/19/25
@@ -281,14 +282,15 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body p-0">
-        <% if (session.getAttribute("user") != null) { %>
+        <% UserDTO user = (UserDTO) session.getAttribute("user");
+            if (user != null) { %>
         <!-- Logged In View -->
         <div class="profile-header">
-            <img src="<%=session.getAttribute("userImage")%>" alt="Profile Picture" class="profile-avatar" />
-            <h5 class="mb-1"><%= session.getAttribute("userName") %></h5>
-            <p class="text-muted mb-0"><%= session.getAttribute("userEmail") %></p>
+            <img src="<%=user.getImage_url()%>" alt="Profile Picture" class="profile-avatar" />
+            <h5 class="mb-1"><%= user.getName() %></h5>
+            <p class="text-muted mb-0"><%= user.getEmail() %></p>
 
-        <% if(session.getAttribute("isActive").equals(true)){%>
+        <% if(user.isActive()==true){%>
             <i class="bi bi-circle-fill d-flex justify-content-center" style="color:#18e718"><p style="margin: -3px 0 0 5px">Active</p></i>
             <%
         }else{

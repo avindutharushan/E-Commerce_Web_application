@@ -35,7 +35,7 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        System.out.println(action);
+
         if ("login".equals(action)) {
             loginUser(request, response);
         } else if ("update".equals(action)) {
@@ -55,8 +55,6 @@ public class UserServlet extends HttpServlet {
 
         if (session != null) {
             session.removeAttribute("user");
-            session.removeAttribute("userName");
-            session.removeAttribute("userEmail");
 
             session.invalidate();
         }
@@ -91,12 +89,12 @@ public class UserServlet extends HttpServlet {
 
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
-                    session.setAttribute("userName", user.getName());
-                    session.setAttribute("userEmail", user.getEmail());
-                    session.setAttribute("userImage", user.getImage_url());
-                    session.setAttribute("isActive", user.isActive());
 
-                    response.sendRedirect("index.jsp");
+                    if (user.getRole().equals("ADMIN")) {
+                        response.sendRedirect("admin/dashboard.jsp");
+                    }else {
+                        response.sendRedirect("index.jsp");
+                    }
                 }else {
                     response.sendRedirect("login.jsp?error=no user found");
                 }
