@@ -94,6 +94,7 @@
                                 id="password"
                                 name="password"
                                 placeholder="Password"
+                                minlength="8"
                                 required
                         />
                     </div>
@@ -105,6 +106,7 @@
                                 id="confirmPassword"
                                 name="confirmPassword"
                                 placeholder="Confirm Password"
+                                minlength="8"
                                 required
                         />
                     </div>

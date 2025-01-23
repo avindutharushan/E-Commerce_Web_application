@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import lk.ijse.ecommerceplatform.dto.UserDTO;
+import lk.ijse.ecommerceplatform.util.PasswordUtil;
 
 import javax.sql.DataSource;
 
@@ -73,27 +74,30 @@ public class UserServlet extends HttpServlet {
         try {
             if (email != null && password != null) {
                 Connection connection = dataSource.getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE email = ? AND password = ?");
+                PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE email = ?");
                 preparedStatement.setString(1, email);
-                preparedStatement.setString(2, password);
                 ResultSet resultSet = preparedStatement.executeQuery();
 
                 if (resultSet.next()) {
-                    int id = resultSet.getInt(1);
-                    String name = resultSet.getString("name");
-                    String role = resultSet.getString("role");
-                    boolean isActive = resultSet.getBoolean("is_active");
-                    String image_url = resultSet.getString("image_url");
+                    if (PasswordUtil.checkPassword(password,resultSet.getString("password"))){
+                        int id = resultSet.getInt(1);
+                        String name = resultSet.getString("name");
+                        String role = resultSet.getString("role");
+                        boolean isActive = resultSet.getBoolean("is_active");
+                        String image_url = resultSet.getString("image_url");
 
-                    UserDTO user = new UserDTO(id, email, null, name, role, isActive,image_url);
+                        UserDTO user = new UserDTO(id, email, null, name, role, isActive,image_url);
 
-                    HttpSession session = request.getSession();
-                    session.setAttribute("user", user);
+                        HttpSession session = request.getSession();
+                        session.setAttribute("user", user);
 
-                    if (user.getRole().equals("ADMIN")) {
-                        response.sendRedirect("admin/dashboard.jsp");
+                        if (user.getRole().equals("ADMIN")) {
+                            response.sendRedirect("admin/dashboard.jsp");
+                        }else {
+                            response.sendRedirect("index.jsp");
+                        }
                     }else {
-                        response.sendRedirect("index.jsp");
+                        response.sendRedirect("pages/login.jsp?error=wrong password");
                     }
                 }else {
                     response.sendRedirect("pages/login.jsp?error=no user found");
@@ -138,7 +142,7 @@ public class UserServlet extends HttpServlet {
             Connection connection = dataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users ( email, password, name, role, image_url) VALUES (?, ?, ?, ?, ?)");
             preparedStatement.setString(1, email);
-            preparedStatement.setString(2, password);
+            preparedStatement.setString(2, PasswordUtil.hashPassword(password));
             preparedStatement.setString(3, fullName);
             preparedStatement.setString(4, role);
             preparedStatement.setString(5, "assets/images/users/" + imageFileName);
