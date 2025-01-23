@@ -61,7 +61,7 @@
                 <h3 class="text-center mb-4" style="margin-top: -10px">Welcome</h3>
 
                 <!-- Login Form -->
-                <form action="<%= request.getContextPath() %>/login" method="POST">
+                <form action="user" method="get">
                     <div class="mb-3">
                         <input
                                 type="email"
@@ -90,7 +90,7 @@
                         >
                     </div>
 
-                    <button type="submit" class="btn btn-dark w-100 mb-3">
+                    <button type="submit" name="action" value="login" class="btn btn-dark w-100 mb-3">
                         Sign In
                     </button>
                 </form>

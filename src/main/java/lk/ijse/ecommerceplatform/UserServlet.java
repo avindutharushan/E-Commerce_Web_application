@@ -29,12 +29,12 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
 
-        if ("update".equals(action)) {
-            // updateCategory(request, response);
+        if ("register".equals(action)) {
+            registerUser(req, resp);
         } else if ("delete".equals(action)) {
             // deleteCategory(request, response);
-        }else if ("register".equals(action)) {
-            register(req, resp);
+        }else if ("update".equals(action)) {
+            // updateCategory(request, response);
         }
     }
 
@@ -44,14 +44,8 @@ public class UserServlet extends HttpServlet {
 
         if ("login".equals(action)) {
             loginUser(request, response);
-        } else if ("update".equals(action)) {
-           // updateCategory(request, response);
-        } else if ("delete".equals(action)) {
-           // deleteCategory(request, response);
-        }else if ("logout".equals(action)) {
+        } else if ("logout".equals(action)) {
             logout(request, response);
-        }else if ("register".equals(action)) {
-            //register(request, response);
         }
 
     }
@@ -102,7 +96,7 @@ public class UserServlet extends HttpServlet {
                         response.sendRedirect("index.jsp");
                     }
                 }else {
-                    response.sendRedirect("login.jsp?error=no user found");
+                    response.sendRedirect("pages/login.jsp?error=no user found");
                 }
                 connection.close();
             }
@@ -113,12 +107,13 @@ public class UserServlet extends HttpServlet {
         }
     }
 
-    private void register(HttpServletRequest req, HttpServletResponse resp){
+    private void registerUser(HttpServletRequest req, HttpServletResponse resp){
         try {
             String fullName = req.getParameter("fullName");
             String email = req.getParameter("email");
             String password = req.getParameter("password");
             String confirmPassword = req.getParameter("confirmPassword");
+            String role = req.getParameter("role");
             Part imagePart = req.getPart("image");
 
             if (!password.equals(confirmPassword)) {
@@ -140,9 +135,27 @@ public class UserServlet extends HttpServlet {
                 imageFileName = "default-user-image.png";
             }
 
+            Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users ( email, password, name, role, image_url) VALUES (?, ?, ?, ?, ?)");
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, password);
+            preparedStatement.setString(3, fullName);
+            preparedStatement.setString(4, role);
+            preparedStatement.setString(5, "assets/images/users/" + imageFileName);
+            int i = preparedStatement.executeUpdate();
 
+            if (i > 0 && role.equals("CUSTOMER")) {
+                loginUser(req, resp);
+            } else if(i > 0 && role.equals("ADMIN")) {
+                loginUser(req, resp);
+            } else if (i == 0 && role.equals("ADMIN")) {
+                req.setAttribute("error", "Failed to register user");
+                req.getRequestDispatcher("admin/users.jsp").forward(req, resp);
+            } else {
+                req.setAttribute("error", "Failed to register user");
+                req.getRequestDispatcher("register.jsp").forward(req, resp);
+            }
 
-            resp.sendRedirect("admin.jsp?status=success&alert=Product Saved Successfully!");
         }catch (Exception e) {
             e.printStackTrace();
         }

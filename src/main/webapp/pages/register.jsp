@@ -64,6 +64,7 @@
 
                 <!-- Registration Form -->
                 <form action="../user" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="role" value="CUSTOMER">
                     <div class="mb-3">
                         <input
                                 type="text"
