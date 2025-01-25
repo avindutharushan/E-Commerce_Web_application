@@ -71,6 +71,16 @@
                 </div>
                 <% } %>
 
+                <%
+                    String error = request.getParameter("error");
+                    if (error != null && !error.isEmpty()) {
+                %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <%= error %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <% } %>
+
                 <!-- Login Form -->
                 <form action="../user" method="get">
                     <div class="mb-3">

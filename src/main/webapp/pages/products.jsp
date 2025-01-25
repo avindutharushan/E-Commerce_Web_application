@@ -13,6 +13,7 @@
     UserDTO currentUser = (UserDTO) session.getAttribute("user");
     String userName = currentUser != null ? currentUser.getName() : "";
     String userEmail = currentUser != null ? currentUser.getEmail() : "";
+    Integer userId = currentUser != null ? currentUser.getUserId() : null;
 
     List<ProductDTO> products = (List<ProductDTO>) request.getAttribute("products");
     if (products == null) {
@@ -311,7 +312,7 @@
                             <h5 class="card-title"><%=product.getName()%></h5>
                             <p class="card-text fw-bold">$ <%=String.format("%.2f",product.getPrice())%></p>
                             <div class="d-flex gap-2">
-                                <button class="btn btn-outline-dark flex-grow-1 rounded-5" onclick="addToCart(<%=product.getProduct_id()%>)">Add to Cart</button>
+                                <button class="btn btn-outline-dark flex-grow-1 rounded-5" onclick="addToCart('<%=product.getProduct_id()%>','<%=userId%>')">Add to Cart</button>
                                 <button class="btn btn-dark flex-grow-1 rounded-5" onclick="buyNow(<%=product.getProduct_id()%>)">Buy Now</button>
                             </div>
                         </div>
@@ -445,12 +446,30 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    function addToCart(productId) {
-        // Add to cart logic
-        fetch('${pageContext.request.contextPath}/cart/add', {
-            method: 'POST',
-            body: JSON.stringify({ productId: productId })
+    function addToCart(productId,userId) {
+
+        var quantity = "1";
+
+        $.ajax({
+            url: '${pageContext.request.contextPath}/cart',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({  action: "add",
+                                    userId: userId,
+                                    productId: productId,
+                                    quantity: quantity }),
+            success: function(response) {
+                alert('Product added to cart successfully!');
+            },
+            error: function(xhr) {
+                if (xhr.status === 401) {
+                    window.location.href = '${pageContext.request.contextPath}/pages/login.jsp?error=Login first';
+                } else {
+                    alert('Error adding product to cart: ' + xhr.responseText);
+                }
+            }
         });
     }
 
