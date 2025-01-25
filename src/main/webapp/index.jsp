@@ -183,7 +183,7 @@
                 </li>
             </ul>
             <div class="d-flex">
-                <a href="cart" class="btn me-0">
+                <a href="pages/cart" class="btn me-0">
                     <i class="bi bi-cart fs-4"></i>
                 </a>
                 <a class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
@@ -252,9 +252,11 @@
 <section id="products" class="section-padding bg-light pb-5">
     <div class="main-container">
         <h2 class="text-center mb-5">Our Products</h2>
-        <div class="row g-4 " id="category-content">
+        <a href="products" style="text-decoration: none">
+            <div class="row g-4 " id="category-content">
 
-        </div>
+            </div>
+        </a>
     </div>
 </section>
 
