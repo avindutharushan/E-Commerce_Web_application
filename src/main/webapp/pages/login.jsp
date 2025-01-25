@@ -60,8 +60,19 @@
 
                 <h3 class="text-center mb-4" style="margin-top: -10px">Welcome</h3>
 
+                <%-- Error Message Display --%>
+                <%
+                    String errorMessage = (String) request.getAttribute("error");
+                    if (errorMessage != null && !errorMessage.isEmpty()) {
+                %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <%= errorMessage %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <% } %>
+
                 <!-- Login Form -->
-                <form action="user" method="get">
+                <form action="../user" method="get">
                     <div class="mb-3">
                         <input
                                 type="email"

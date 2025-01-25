@@ -62,6 +62,17 @@
                     Create Account
                 </h3>
 
+                <%-- Error Message Display --%>
+                <%
+                    String errorMessage = (String) request.getAttribute("error");
+                    if (errorMessage != null && !errorMessage.isEmpty()) {
+                %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <%= errorMessage %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <% } %>
+
                 <!-- Registration Form -->
                 <form action="../user" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="role" value="CUSTOMER">

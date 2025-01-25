@@ -97,16 +97,18 @@ public class UserServlet extends HttpServlet {
                             response.sendRedirect("index.jsp");
                         }
                     }else {
-                        response.sendRedirect("pages/login.jsp?error=wrong password");
+                        request.setAttribute("error", "wrong password");
+                        request.getRequestDispatcher("pages/login.jsp").forward(request, response);
                     }
                 }else {
-                    response.sendRedirect("pages/login.jsp?error=no user found");
+                    request.setAttribute("error", "no user found");
+                    request.getRequestDispatcher("pages/login.jsp").forward(request, response);
                 }
                 connection.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (IOException | ServletException e) {
             e.printStackTrace();
         }
     }
@@ -122,13 +124,13 @@ public class UserServlet extends HttpServlet {
 
             if (!password.equals(confirmPassword)) {
                 req.setAttribute("error", "Passwords do not match");
-                req.getRequestDispatcher("register.jsp").forward(req, resp);
+                req.getRequestDispatcher("pages/register.jsp").forward(req, resp);
                 return;
             }
 
             if (isEmailExists(email)) {
                 req.setAttribute("error", "Email already registered");
-                req.getRequestDispatcher("register.jsp").forward(req, resp);
+                req.getRequestDispatcher("pages/register.jsp").forward(req, resp);
                 return;
             }
 
@@ -157,7 +159,7 @@ public class UserServlet extends HttpServlet {
                 req.getRequestDispatcher("admin/users.jsp").forward(req, resp);
             } else {
                 req.setAttribute("error", "Failed to register user");
-                req.getRequestDispatcher("register.jsp").forward(req, resp);
+                req.getRequestDispatcher("pages/register.jsp").forward(req, resp);
             }
 
         }catch (Exception e) {
