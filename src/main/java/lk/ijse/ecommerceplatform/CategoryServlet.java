@@ -1,13 +1,11 @@
 package lk.ijse.ecommerceplatform;
 
 import jakarta.annotation.Resource;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lk.ijse.ecommerceplatform.dto.CategoryDTO;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -16,13 +14,10 @@ import javax.json.JsonObjectBuilder;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
-@WebServlet(name = "categoryAll", value = "/category-all")
-public class CategoryListServlet extends HttpServlet {
+@WebServlet(name = "category", value = "/category")
+public class CategoryServlet extends HttpServlet {
     @Resource(name = "java:comp/env/jdbc/pool")
     private DataSource dataSource;
     @Override
@@ -30,7 +25,6 @@ public class CategoryListServlet extends HttpServlet {
         try {
             Connection connection = dataSource.getConnection();
             if (connection == null) {
-                System.err.println("Database connection is null!");
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database connection error.");
                 return;
             }
