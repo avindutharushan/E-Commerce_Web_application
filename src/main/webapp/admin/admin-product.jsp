@@ -1,5 +1,6 @@
 <%@ page import="lk.ijse.ecommerceplatform.dto.ProductDTO" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: shan
   Date: 1/26/25
@@ -108,25 +109,29 @@
 
             <!-- Product Cards Grid -->
             <div class="row">
-                <%
-                    List<ProductDTO> products = (List<ProductDTO>) request.getAttribute("products");
+                <%List<ProductDTO> products = (List<ProductDTO>) request.getAttribute("products");
+                    if (products == null) {
+                        products = new ArrayList<>();
+                    }
                     for (ProductDTO product : products) {
                 %>
-                <div class="card-dashboard col-md-4 mb-4">
-                    <div class="card h-100">
-                        <img src="<%= product.getImage_url() %>" class="card-img-top" alt="<%= product.getName() %>">
-                        <div class="card-body">
-                            <h5 class="card-title"><%= product.getName() %></h5>
-                            <p class="card-text"><%= product.getDescription() %></p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="h5 mb-0">$<%= product.getPrice() %></span>
-                                <span class="badge bg="<%= product.getQuantity() > 0 ? "success" : "danger" %>">
-                                <%= product.getQuantity() > 0 ? "In Stock" : "Out of Stock" %>
-                                </span>
+                <div class="col-md-4">
+                    <div class="product-card">
+                        <img src="<%=product.getImage_url()%>" class="product-image w-100" alt="Product" />
+                        <div class="card-body p-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <small class="text-muted"><%=product.getDescription()%></small>
+                                <div class="rating d-flex">
+                                    <i class="bi bi-star-fill me-1"></i>
+                                    <i class="bi bi-star-fill me-1"></i>
+                                    <i class="bi bi-star-fill me-1"></i>
+                                    <i class="bi bi-star-fill me-1"></i>
+                                    <i class="bi bi-star-fill me-1"></i>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-footer bg-white border-top-0">
-                            <div class="btn-group w-100">
+                            <h5 class="card-title"><%=product.getName()%></h5>
+                            <p class="card-text fw-bold">$ <%=String.format("%.2f",product.getPrice())%></p>
+                            <div class="d-flex gap-2">
                                 <button class="btn btn-outline-primary">Edit</button>
                                 <button class="btn btn-outline-danger">Delete</button>
                             </div>

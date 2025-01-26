@@ -106,7 +106,6 @@
                 </ul>
             </div>
         </nav>
-
         <!-- Main Content -->
         <main class="col-md-10 ms-sm-auto px-4">
             <div
@@ -129,8 +128,8 @@
                                     >
                                         Total Sales
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                        $${totalSales}
+                                    <div id="order" class="h5 mb-0 font-weight-bold text-gray-800">
+
                                     </div>
                                 </div>
                                 <div class="col-auto">
@@ -149,12 +148,11 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
                                     <div
-                                            class="text-xs font-weight-bold text-success text-uppercase mb-1"
+                                              class="text-xs font-weight-bold text-success text-uppercase mb-1"
                                     >
                                         Orders
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                        ${totalOrders}
+                                    <div id="order1" class="h5 mb-0 font-weight-bold text-gray-800">
                                     </div>
                                 </div>
                                 <div class="col-auto">
@@ -177,9 +175,8 @@
                                     >
                                         Products
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                        ${totalProducts}
-                                    </div>
+                                    <div id="product" class="h5 mb-0 font-weight-bold text-gray-800">
+                                     </div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-tshirt fa-2x text-gray-300"></i>
@@ -201,8 +198,8 @@
                                     >
                                         Customers
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                        ${totalCustomers}
+                                    <div id="cus" class="h5 mb-0 font-weight-bold text-gray-800">
+
                                     </div>
                                 </div>
                                 <div class="col-auto">
@@ -235,6 +232,25 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="../js/jquery-3.7.1.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        $.ajax({
+            url: "http://localhost:8080/Meduza/dashboard",
+            type: "GET",
+            success: function (res){
+                $("#product").append(res.data[1])
+                $("#order").append(res.data[0])
+                $("#order1").append(res.data[0])
+                $("#cus").append(res.data[2])
+
+            }
+
+        });
+    });
+</script>
 </body>
 </html>
 

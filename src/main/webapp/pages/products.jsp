@@ -303,7 +303,7 @@
                             <p class="card-text fw-bold">$ <%=String.format("%.2f",product.getPrice())%></p>
                             <div class="d-flex gap-2">
                                 <button class="btn btn-outline-dark flex-grow-1 rounded-5" onclick="addToCart('<%=product.getProduct_id()%>','<%=userId%>','<%=product.getImage_url()%>')">Add to Cart</button>
-                                <button class="btn btn-dark flex-grow-1 rounded-5" onclick="buyNow(<%=product.getProduct_id()%>)">Buy Now</button>
+                                <button class="btn btn-dark flex-grow-1 rounded-5" onclick="buyNow('<%=product.getProduct_id()%>','<%=userId%>','<%=product.getImage_url()%>')">Buy Now</button>
                             </div>
                         </div>
                     </div>
@@ -464,9 +464,29 @@
         });
     }
 
-    function buyNow(productId) {
-        // Buy now logic
-        window.location.href = '${pageContext.request.contextPath}/checkout?productId=' + productId;
+    function buyNow(productId,userId,image_url) {
+        var quantity = "1";
+
+        $.ajax({
+            url: '${pageContext.request.contextPath}/cart',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({  action: "add",
+                userId: userId,
+                productId: productId,
+                quantity: quantity,
+                image_url: image_url}),
+            success: function(response) {
+                window.location.href = '${pageContext.request.contextPath}/pages/cart.jsp';
+            },
+            error: function(xhr) {
+                if (xhr.status === 401) {
+                    window.location.href = '${pageContext.request.contextPath}/pages/login.jsp?error=Login first';
+                } else {
+                    alert('Error adding product to cart: ' + xhr.responseText);
+                }
+            }
+        });
     }
 </script>
 </body>

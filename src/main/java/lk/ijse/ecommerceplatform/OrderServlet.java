@@ -27,8 +27,8 @@ public class OrderServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int userId = Integer.parseInt(req.getParameter("user")); // Get user ID from request
-        String shippingAddress = req.getParameter("address"); // Get shipping address from request
+        int userId = Integer.parseInt(req.getParameter("user"));
+        String shippingAddress = req.getParameter("address");
         Connection connection = null;
         try {
             connection = dataSource.getConnection();
@@ -36,10 +36,9 @@ public class OrderServlet extends HttpServlet {
             e.printStackTrace();
         }
         try  {
-            // Disable auto-commit
             connection.setAutoCommit(false);
 
-            // Step 1: Retrieve cart items for the user
+            // Retrieve cart items for the user
             String cartQuery = "SELECT product_id, quantity FROM cart WHERE user_id = ?";
             PreparedStatement cartStmt = connection.prepareStatement(cartQuery);
             cartStmt.setInt(1, userId);
@@ -64,12 +63,11 @@ public class OrderServlet extends HttpServlet {
                     double total = price * quantity;
                     totalAmount += total;
 
-                    // Add to order details
                     orderDetails.add(new OrderDetailDTO2(productId, name, quantity, price));
                 }
             }
 
-            // Step 2: Create the order
+            // Create the order
             String orderQuery = "INSERT INTO orders (user_id, total_amount, status, shipping_address) VALUES (?, ?, 'PENDING', ?)";
             PreparedStatement orderStmt = connection.prepareStatement(orderQuery, Statement.RETURN_GENERATED_KEYS);
             orderStmt.setInt(1, userId);
@@ -84,7 +82,7 @@ public class OrderServlet extends HttpServlet {
                 orderId = generatedKeys.getInt(1);
             }
 
-            // Step 3: Insert order details
+            //  Insert order details
             String orderDetailQuery = "INSERT INTO order_details (order_id, product_id, quantity, price_at_time) VALUES (?, ?, ?, ?)";
             PreparedStatement orderDetailStmt = connection.prepareStatement(orderDetailQuery);
 
@@ -96,21 +94,18 @@ public class OrderServlet extends HttpServlet {
                 orderDetailStmt.executeUpdate();
             }
 
-            // Step 4: Clear the cart
+            // Clear the cart
             String clearCartQuery = "DELETE FROM cart WHERE user_id = ?";
             PreparedStatement clearCartStmt = connection.prepareStatement(clearCartQuery);
             clearCartStmt.setInt(1, userId);
             clearCartStmt.executeUpdate();
 
-            // Commit the transaction
             connection.commit();
 
-            // Redirect to a success page or show a success message
             req.setAttribute("orderDetails", orderDetails);
             req.getRequestDispatcher("pages/orderSuccess.jsp").forward(req, resp);
         } catch (SQLException e) {
             e.printStackTrace();
-            // Rollback the transaction in case of an error
             try {
                 if (connection != null) {
                     connection.rollback();
@@ -118,7 +113,6 @@ public class OrderServlet extends HttpServlet {
             } catch (SQLException rollbackEx) {
                 rollbackEx.printStackTrace();
             }
-            // Handle error (e.g., redirect to an error page)
             resp.sendRedirect("cart.jsp?error=order not placed");
         }
     }
