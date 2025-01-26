@@ -28,7 +28,9 @@
         }
         .nav-link:hover {
             background-color: #495057;
-        }
+        }.active{
+             background-color: #495057;
+         }
 
     </style>
 </head>
