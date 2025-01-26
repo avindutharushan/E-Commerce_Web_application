@@ -12,7 +12,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Customers - T-Shirt Store Admin</title>
+    <title>Meduza Customers</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Font Awesome -->
@@ -46,7 +46,7 @@
             <div class="position-sticky d-flex justify-content-center">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#dashboard">
+                        <a class="nav-link " href="#dashboard">
                             <i class="fas fa-tachometer-alt me-2"></i>
                             Dashboard
                         </a>
@@ -64,7 +64,7 @@
                         </a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="#customers">
+                        <a class="nav-link active" href="#customers">
                             <i class="fas fa-users me-2"></i>
                             Customers
                         </a>
