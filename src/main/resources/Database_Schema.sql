@@ -41,7 +41,8 @@ CREATE TABLE users (
     name VARCHAR(50) NOT NULL,
     role ENUM('ADMIN', 'CUSTOMER') DEFAULT 'CUSTOMER',
     is_active BOOLEAN DEFAULT true,
-    image_url VARCHAR(255)
+    image_url VARCHAR(255),
+    address TEXT
 );
 
 -- Cart table with CASCADE
@@ -50,6 +51,7 @@ CREATE TABLE cart (
     user_id INT,
     product_id INT,
     quantity INT NOT NULL,
+    image_url VARCHAR(255),
     FOREIGN KEY (user_id)
         REFERENCES users(user_id)
         ON UPDATE CASCADE
