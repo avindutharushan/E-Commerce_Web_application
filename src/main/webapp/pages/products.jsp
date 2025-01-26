@@ -312,7 +312,7 @@
                             <h5 class="card-title"><%=product.getName()%></h5>
                             <p class="card-text fw-bold">$ <%=String.format("%.2f",product.getPrice())%></p>
                             <div class="d-flex gap-2">
-                                <button class="btn btn-outline-dark flex-grow-1 rounded-5" onclick="addToCart('<%=product.getProduct_id()%>','<%=userId%>')">Add to Cart</button>
+                                <button class="btn btn-outline-dark flex-grow-1 rounded-5" onclick="addToCart('<%=product.getProduct_id()%>','<%=userId%>','<%=product.getImage_url()%>')">Add to Cart</button>
                                 <button class="btn btn-dark flex-grow-1 rounded-5" onclick="buyNow(<%=product.getProduct_id()%>)">Buy Now</button>
                             </div>
                         </div>
@@ -448,7 +448,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    function addToCart(productId,userId) {
+    function addToCart(productId,userId,image_url) {
 
         var quantity = "1";
 
@@ -459,7 +459,8 @@
             data: JSON.stringify({  action: "add",
                                     userId: userId,
                                     productId: productId,
-                                    quantity: quantity }),
+                                    quantity: quantity,
+                                    image_url: image_url}),
             success: function(response) {
                 alert('Product added to cart successfully!');
             },

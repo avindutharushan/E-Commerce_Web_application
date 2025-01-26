@@ -100,6 +100,17 @@
 
                     <div class="mb-3">
                         <input
+                                type="text"
+                                class="form-control"
+                                id="address"
+                                name="address"
+                                placeholder="Address"
+                                required
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <input
                                 type="password"
                                 class="form-control"
                                 id="password"

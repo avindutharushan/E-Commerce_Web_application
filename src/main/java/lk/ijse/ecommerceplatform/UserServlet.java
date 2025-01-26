@@ -85,8 +85,9 @@ public class UserServlet extends HttpServlet {
                         String role = resultSet.getString("role");
                         boolean isActive = resultSet.getBoolean("is_active");
                         String image_url = resultSet.getString("image_url");
+                        String address = resultSet.getString("address");
 
-                        UserDTO user = new UserDTO(id, email, null, name, role, isActive,image_url);
+                        UserDTO user = new UserDTO(id, email, null, name, role, isActive,image_url,address);
 
                         HttpSession session = request.getSession();
                         session.setAttribute("user", user);
@@ -120,6 +121,7 @@ public class UserServlet extends HttpServlet {
             String password = req.getParameter("password");
             String confirmPassword = req.getParameter("confirmPassword");
             String role = req.getParameter("role");
+            String address = req.getParameter("address");
             Part imagePart = req.getPart("image");
 
             if (!password.equals(confirmPassword)) {
@@ -142,12 +144,13 @@ public class UserServlet extends HttpServlet {
             }
 
             Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users ( email, password, name, role, image_url) VALUES (?, ?, ?, ?, ?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users ( email, password, name, role, image_url,address) VALUES (?, ?, ?, ?,?, ?)");
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, PasswordUtil.hashPassword(password));
             preparedStatement.setString(3, fullName);
             preparedStatement.setString(4, role);
             preparedStatement.setString(5, "assets/images/users/" + imageFileName);
+            preparedStatement.setString(6, address);
             int i = preparedStatement.executeUpdate();
 
             if (i > 0 && role.equals("CUSTOMER")) {

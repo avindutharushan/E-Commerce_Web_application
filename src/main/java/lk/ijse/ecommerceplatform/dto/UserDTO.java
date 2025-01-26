@@ -15,4 +15,5 @@ public class UserDTO {
     private String role;
     private boolean isActive;
     private String image_url;
+    private String address;
 }
