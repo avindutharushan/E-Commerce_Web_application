@@ -223,7 +223,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg sticky-top p-0">
     <div class="container-fluid mx-5">
-        <a class="navbar-brand d-flex" href="#">
+        <a class="navbar-brand d-flex" href="/index.jsp">
             <img src="assets/images/logo.png" style="margin-top: -6px" width="50" alt="" />
             <h3 class="brand mt-1">Meduza</h3></a>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -409,7 +409,7 @@
     </div>
 </div>
 <!-- Footer -->
-<footer class="bg-dark text-light section-padding">
+<footer id="contact" class="bg-dark text-light section-padding">
     <div class="main-container">
         <div class="row">
             <div class="col-md-4">
