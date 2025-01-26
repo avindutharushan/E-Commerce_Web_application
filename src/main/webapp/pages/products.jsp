@@ -224,37 +224,27 @@
 <nav class="navbar navbar-expand-lg sticky-top p-0">
     <div class="container-fluid mx-5">
         <a class="navbar-brand d-flex" href="#">
-            <img src="${pageContext.request.contextPath}/assets/images/logo.png" style="margin-top: -6px" width="50" alt="" />
-            <h3 id="brad" class="mt-1">Meduza</h3>
-        </a>
+            <img src="assets/images/logo.png" style="margin-top: -6px" width="50" alt="" />
+            <h3 class="brand mt-1">Meduza</h3></a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item dropdown d-flex">
                     <button type="button" class="btn nav-link">
                         <a class="nav-link p-0" href="#products">Categories</a>
                     </button>
-                    <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="visually-hidden">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">T-Shirt</a></li>
-                        <li><a class="dropdown-item" href="#">Cropped Top</a></li>
-                        <li><a class="dropdown-item" href="#">Collared T-Shirt</a></li>
-                        <li><a class="dropdown-item" href="#">Long Sleeve</a></li>
-                    </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#arrivals">New Arrivals</a>
+                    <a class="nav-link" href="products">New Arrivals</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#arrivals">Best Sellers</a>
+                    <a class="nav-link" href="products">Best Sellers</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#contact">Contact Us</a>
                 </li>
             </ul>
             <div class="d-flex">
-                <a href="${pageContext.request.contextPath}/cart" class="btn me-0">
+                <a href="cart?user=<%=userId%>" class="btn me-0">
                     <i class="bi bi-cart fs-4"></i>
                 </a>
                 <a class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
@@ -361,12 +351,14 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body p-0">
-        <% if (currentUser != null) { %>
+        <%
+            if (currentUser != null) { %>
         <!-- Logged In View -->
         <div class="profile-header">
             <img src="<%=currentUser.getImage_url()%>" alt="Profile Picture" class="profile-avatar" />
-            <h5 class="mb-1"><%=userName%></h5>
-            <p class="text-muted mb-0"><%=userEmail%></p>
+            <h5 class="mb-1"><%= userName %></h5>
+            <p class="text-muted mb-0"><%= userEmail %></p>
+
             <% if(currentUser.isActive()==true){%>
             <i class="bi bi-circle-fill d-flex justify-content-center" style="color:#18e718"><p style="margin: -3px 0 0 5px">Active</p></i>
             <%
@@ -376,27 +368,28 @@
             <%
                 }
             %>
+
         </div>
         <ul class="profile-menu">
-            <li><a href="${pageContext.request.contextPath}/profile"><i class="bi bi-person"></i> My Profile</a></li>
-            <li><a href="${pageContext.request.contextPath}/orders"><i class="bi bi-bag"></i> My Orders</a></li>
-            <li><a href="${pageContext.request.contextPath}/wishlist"><i class="bi bi-heart"></i> Wishlist</a></li>
-            <li><a href="${pageContext.request.contextPath}/addresses"><i class="bi bi-geo-alt"></i> Addresses</a></li>
-            <li><a href="${pageContext.request.contextPath}/payments"><i class="bi bi-credit-card"></i> Payment Methods</a></li>
-            <li><a href="${pageContext.request.contextPath}/settings"><i class="bi bi-gear"></i> Settings</a></li>
-            <li><a href="${pageContext.request.contextPath}/logout" class="text-danger"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+            <li><a href="#"><i class="bi bi-person"></i> My Profile</a></li>
+            <li><a href="#"><i class="bi bi-bag"></i> My Orders</a></li>
+            <li><a href="#"><i class="bi bi-heart"></i> Wishlist</a></li>
+            <li><a href="#"><i class="bi bi-geo-alt"></i> Addresses</a></li>
+            <li><a href="#"><i class="bi bi-credit-card"></i> Payment Methods</a></li>
+            <li><a href="#"><i class="bi bi-gear"></i> Settings</a></li>
+            <li><a href="user?action=logout" class="text-danger"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
         </ul>
         <% } else { %>
         <!-- Logged Out View -->
         <div class="profile-header p-5 w-100">
             <div class="d-flex justify-content-center w-100">
-                <img width="120" src="${pageContext.request.contextPath}/assets/images/logo.png" alt="Profile Picture" />
+                <img width="120" src="assets/images/logo.png" alt="Profile Picture" />
             </div>
             <h4 class="text-center">Welcome to Meduza</h4>
             <p class="text-muted text-center">Sign in to access your account</p>
         </div>
         <div class="login-form p-3">
-            <form action="${pageContext.request.contextPath}/user" method="get">
+            <form action="user" method="get">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
                     <input type="email" class="form-control" id="email" name="email" required />
@@ -406,18 +399,15 @@
                     <input type="password" class="form-control" id="password" name="password" required />
                 </div>
                 <button type="submit" name="action" value="login" class="btn btn-dark w-100 mb-2">Login</button>
-                <button type="button" class="btn btn-outline-dark w-100" onclick="window.location.href='${pageContext.request.contextPath}/pages/register'">
-                    Create Account
-                </button>
+                <button type="button" class="btn btn-outline-dark w-100" onclick="window.location.href='pages/register.jsp'">Create Account</button>
             </form>
             <div class="text-center mt-3">
-                <a href="${pageContext.request.contextPath}/pages/forgot-password" class="text-muted">Forgot password?</a>
+                <a href="pages/forget-password.jsp" class="text-muted">Forgot password?</a>
             </div>
         </div>
         <% } %>
     </div>
 </div>
-
 <!-- Footer -->
 <footer class="bg-dark text-light section-padding">
     <div class="main-container">

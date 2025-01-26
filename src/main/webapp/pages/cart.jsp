@@ -178,63 +178,38 @@
 %>
 <nav class="navbar navbar-expand-lg sticky-top p-0">
     <div class="container-fluid mx-5">
-        <a class="navbar-brand d-flex" href="#"
-        ><img
-                src="../assets/images/logo.png"
-                style="margin-top: -6px"
-                width="50"
-                alt=""
-        />
-            <h3 id="brad" class="mt-1">Meduza</h3></a
-        >
+        <a class="navbar-brand d-flex" href="#">
+            <img src="assets/images/logo.png" style="margin-top: -6px" width="50" alt="" />
+            <h3 class="brand mt-1">Meduza</h3></a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item dropdown d-flex">
                     <button type="button" class="btn nav-link">
                         <a class="nav-link p-0" href="#products">Categories</a>
                     </button>
-                    <button
-                            type="button"
-                            class="btn dropdown-toggle dropdown-toggle-split"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                    >
-                        <span class="visually-hidden">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">T-Shirt</a></li>
-                        <li><a class="dropdown-item" href="#">Cropped Top</a></li>
-                        <li><a class="dropdown-item" href="#">Collared T-Shirt</a></li>
-                        <li><a class="dropdown-item" href="#">Long Sleeve</a></li>
-                    </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#arrivals">New Arrivals</a>
+                    <a class="nav-link" href="products">New Arrivals</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#arrivals">Best Sellers</a>
+                    <a class="nav-link" href="products">Best Sellers</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#contact">Contact Us</a>
                 </li>
             </ul>
             <div class="d-flex">
-                <a href="#" class="btn me-0">
+                <a href="cart?user=<%=userId%>" class="btn me-0">
                     <i class="bi bi-cart fs-4"></i>
                 </a>
-                <a
-                        class="btn"
-                        type="button"
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasRight"
-                        aria-controls="offcanvasRight"
-                >
+                <a class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                     <i class="bi bi-person-circle fs-4"></i>
                 </a>
             </div>
         </div>
     </div>
 </nav>
+
 
 <div class="p-5 container-fluid">
     <h1 class="mb-4">Your Cart</h1>
@@ -404,7 +379,6 @@
         <% } %>
     </div>
 </div>
-
 <footer class="bg-dark text-light section-padding">
     <div class="main-container">
         <div class="row">
