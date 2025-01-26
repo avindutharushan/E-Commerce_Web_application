@@ -1,5 +1,6 @@
 <%@ page import="lk.ijse.ecommerceplatform.dto.OrderDetailDTO" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="lk.ijse.ecommerceplatform.dto.OrderDetailDTO2" %><%--
   Created by IntelliJ IDEA.
   User: shan
   Date: 1/26/25
@@ -58,10 +59,10 @@
     <tbody>
     <%
       // Example data, replace with actual order details from the session or request
-      List<OrderDetailDTO> orderDetails = (List<OrderDetailDTO>) request.getAttribute("orderDetails");
+      List<OrderDetailDTO2> orderDetails = (List<OrderDetailDTO2>) request.getAttribute("orderDetails");
       double totalAmount = 0;
 
-      for (OrderDetailDTO detail : orderDetails) {
+      for (OrderDetailDTO2 detail : orderDetails) {
         double price = detail.getPrice();
         totalAmount += price * detail.getQuantity();
     %>
@@ -80,7 +81,6 @@
 
   <div class="mt-4">
     <a href="index.jsp" class="btn btn-success">Continue Shopping</a>
-    <a href="user?action=myOrders" class="btn btn-outline-secondary">View My Orders</a>
   </div>
 </div>
 

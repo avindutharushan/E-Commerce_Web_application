@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lk.ijse.ecommerceplatform.dto.OrderDetailDTO;
+import lk.ijse.ecommerceplatform.dto.OrderDetailDTO2;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -29,7 +30,6 @@ public class OrderServlet extends HttpServlet {
         int userId = Integer.parseInt(req.getParameter("user")); // Get user ID from request
         String shippingAddress = req.getParameter("address"); // Get shipping address from request
 
-        System.out.println(userId + " " + shippingAddress);
         try (Connection connection = dataSource.getConnection()) {
             // Step 1: Retrieve cart items for the user
             String cartQuery = "SELECT product_id, quantity FROM cart WHERE user_id = ?";
@@ -38,25 +38,26 @@ public class OrderServlet extends HttpServlet {
             ResultSet cartResult = cartStmt.executeQuery();
 
             double totalAmount = 0;
-            List<OrderDetailDTO> orderDetails = new ArrayList<>();
+            List<OrderDetailDTO2> orderDetails = new ArrayList<>();
 
             while (cartResult.next()) {
                 int productId = cartResult.getInt("product_id");
                 int quantity = cartResult.getInt("quantity");
 
                 // Get product price
-                String productQuery = "SELECT price FROM products WHERE product_id = ?";
+                String productQuery = "SELECT price, name FROM products WHERE product_id = ?";
                 PreparedStatement productStmt = connection.prepareStatement(productQuery);
                 productStmt.setInt(1, productId);
                 ResultSet productResult = productStmt.executeQuery();
 
                 if (productResult.next()) {
                     double price = productResult.getDouble("price");
+                    String name = productResult.getString("name");
                     double total = price * quantity;
                     totalAmount += total;
 
                     // Add to order details
-                    orderDetails.add(new OrderDetailDTO(productId, quantity, price));
+                    orderDetails.add(new OrderDetailDTO2(productId,name, quantity, price));
                 }
             }
 
@@ -79,7 +80,7 @@ public class OrderServlet extends HttpServlet {
             String orderDetailQuery = "INSERT INTO order_details (order_id, product_id, quantity, price_at_time) VALUES (?, ?, ?, ?)";
             PreparedStatement orderDetailStmt = connection.prepareStatement(orderDetailQuery);
 
-            for (OrderDetailDTO detail : orderDetails) {
+            for (OrderDetailDTO2 detail : orderDetails) {
                 orderDetailStmt.setInt(1, orderId);
                 orderDetailStmt.setInt(2, detail.getProductId());
                 orderDetailStmt.setInt(3, detail.getQuantity());
@@ -94,7 +95,8 @@ public class OrderServlet extends HttpServlet {
             clearCartStmt.executeUpdate();
 
             // Redirect to a success page or show a success message
-            resp.sendRedirect("orderSuccess.jsp");
+            req.setAttribute("orderDetails", orderDetails );
+            req.getRequestDispatcher("pages/orderSuccess.jsp").forward(req, resp);
         } catch (SQLException e) {
             e.printStackTrace();
             // Handle error (e.g., redirect to an error page)

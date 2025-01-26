@@ -169,21 +169,12 @@
                     <button type="button" class="btn nav-link">
                         <a class="nav-link p-0" href="#products">Categories</a>
                     </button>
-                    <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="visually-hidden">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">T-Shirt</a></li>
-                        <li><a class="dropdown-item" href="#">Cropped Top</a></li>
-                        <li><a class="dropdown-item" href="#">Collared T-Shirt</a></li>
-                        <li><a class="dropdown-item" href="#">Long Sleeve</a></li>
-                    </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#arrivals">New Arrivals</a>
+                    <a class="nav-link" href="products">New Arrivals</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#arrivals">Best Sellers</a>
+                    <a class="nav-link" href="products">Best Sellers</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#contact">Contact Us</a>
@@ -221,8 +212,8 @@
                 inspire with you.
             </p>
             <div class="d-flex gap-3">
-                <button class="btn btn-light px-4 py-2">Shop Now</button>
-                <button class="btn btn-outline-light px-4 py-2">Learn More</button>
+                <a href="products" class="btn btn-light px-4 py-2">Shop Now</a>
+                <a href="#contact" class="btn btn-outline-light px-4 py-2">Learn More</a>
             </div>
         </div>
     </div>
@@ -239,7 +230,7 @@
                         <h3>New Arrivals</h3>
                         <p class="mb-3">Our new items are designed right to impress.</p>
                         <div class="d-flex gap-2">
-                            <button class="btn btn-outline-light btn-sm">see all</button>
+                            <a href="products" class="btn btn-outline-light btn-sm">see all</a>
                         </div>
                     </div>
                 </div>
@@ -251,7 +242,7 @@
                         <h3>Best Sellers</h3>
                         <p class="mb-3">Complete your look with our best collection.</p>
                         <div class="d-flex gap-2">
-                            <button class="btn btn-outline-light btn-sm">see all</button>
+                            <a href="products" class="btn btn-outline-light btn-sm">see all</a>
                         </div>
                     </div>
                 </div>
@@ -366,8 +357,8 @@
                 <h5>Quick Links</h5>
                 <ul class="list-unstyled">
                     <li><a href="#products" class="text-light">Categories</a></li>
-                    <li><a href="#arrivals" class="text-light">New Arrivals</a></li>
-                    <li><a href="#arrivals" class="text-light">Accessories</a></li>
+                    <li><a href="products" class="text-light">New Arrivals</a></li>
+                    <li><a href="products" class="text-light">Accessories</a></li>
                 </ul>
             </div>
             <div class="col-md-4">
