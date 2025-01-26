@@ -44,7 +44,7 @@
         <!-- Sidebar -->
         <nav class="col-md-2 d-none d-md-block sidebar p-3">
             <div class="text-center mb-4">
-                <img src="/assets/images/logo.png" alt="Logo" class="img-fluid bg-white rounded-circle mb-3" style="width: 80px" />
+                <img src="../assets/images/logo.png" alt="Logo" class="img-fluid bg-white rounded-circle mb-3" style="width: 80px" />
                 <h5 class="text-white">Meduza</h5>
             </div>
             <div class="position-sticky d-flex justify-content-center">
@@ -104,7 +104,7 @@
                     List<ProductDTO> products = (List<ProductDTO>) request.getAttribute("products");
                     for (ProductDTO product : products) {
                 %>
-                <div class="col-md-4 mb-4">
+                <div class="card-dashboard col-md-4 mb-4">
                     <div class="card h-100">
                         <img src="<%= product.getImage_url() %>" class="card-img-top" alt="<%= product.getName() %>">
                         <div class="card-body">
