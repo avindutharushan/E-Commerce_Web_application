@@ -48,27 +48,33 @@
             <div class="position-sticky d-flex justify-content-center">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#dashboard">
+                        <a class="nav-link active" href="dashboard">
                             <i class="fas fa-tachometer-alt me-2"></i>
                             Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#products">
+                        <a class="nav-link" href="admin-product">
                             <i class="fas fa-tshirt me-2"></i>
                             Products
                         </a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="#orders">
+                        <a class="nav-link" href="order">
                             <i class="fas fa-shopping-cart me-2"></i>
                             Orders
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#customers">
+                        <a class="nav-link" href="user?action=customer">
                             <i class="fas fa-users me-2"></i>
                             Customers
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="category.jsp">
+                            <i class="fas fa-tags me-2"></i>
+                            Categories
                         </a>
                     </li>
                     <li class="nav-item">

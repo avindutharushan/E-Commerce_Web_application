@@ -46,19 +46,19 @@
             <div class="position-sticky d-flex justify-content-center">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="#dashboard">
+                        <a class="nav-link" href="dashboard">
                             <i class="fas fa-tachometer-alt me-2"></i>
                             Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#products">
+                        <a class="nav-link" href="admin-product">
                             <i class="fas fa-tshirt me-2"></i>
                             Products
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#categories">
+                        <a class="nav-link active" href="category">
                             <i class="fas fa-tags me-2"></i>
                             Categories
                         </a>
@@ -101,53 +101,15 @@
             </div>
 
             <!-- Category Table -->
-            <div class="card shadow mb-4">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Category Name</th>
-                                <th>Description</th>
-                                <th>Products Count</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <%
-                                List<CategoryDTO> categoryList = (List<CategoryDTO>) request.getAttribute("categoryList");
-                                if ( categoryList != null && !categoryList.isEmpty()) {
-                                    for (int i = 0; i < categoryList.size(); i++) {
-                                        CategoryDTO category = categoryList.get(i);
-                            %>
-                            <tr>
-                                <td><%= i + 1 %></td>
-                                <td><%= category.getName() %></td>
-                                <td><%= category.getDescription() %></td>
-                                <td><%= category.getDescription() %></td>
+            <section id="products" class="section-padding bg-light pb-5">
+                <div class="main-container">
+                    <a href="products" style="text-decoration: none">
+                        <div class="row g-4 " id="category-content">
 
-                                <td class="text-center d-flex">
-                                    <button class="btn btn-sm btn-info me-2" onclick="editCategory(<%= category.getId() %>)">View</button>
-                                    <a href="deleteCategory?id=<%= category.getId() %>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this category?');">Delete</a>
-                                </td>
-                            </tr>
-                            <%
-                                }
-                            } else {
-                            %>
-                            <tr>
-                                <td colspan="6" class="text-center">No categories found.</td>
-                            </tr>
-                            <%
-                                }
-                            %>
-                            </tbody>
-                        </table>
-                    </div>
+                        </div>
+                    </a>
                 </div>
-            </div>
+            </section>
         </main>
     </div>
 </div>
@@ -183,6 +145,41 @@
         </div>
     </div>
 </div>
+<script src="../js/jquery-3.7.1.min.js"></script>
+<script>
+    const fetchCategories = () => {
+        $.ajax({
+            url: "http://localhost:8080/Meduza/category",
+            type: "GET",
+            success: (res) => {
+                $("#category-content").empty();
+
+                res.data.forEach((category) => {
+
+                    $("#category-content").append(
+                        '<div class="col-md-4 col-lg-3">' +
+                        '<div class="card product-card">' +
+                        '<img src="../' + category.image_url + '" class="card-img-top" alt="Product" />' +
+                        '<div class="card-body">' +
+                        '<h5 class="card-title">' + category.name + '</h5>' +
+                        '<p class="card-text">' + category.description + '</p>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>'
+                    );
+                });
+            },
+            error: (err) => {
+                console.error("GET Error:", err);
+                alert("Failed to fetch data. Please try again later.");
+            },
+        });
+    };
+
+    $(document).ready(() => {
+        fetchCategories();
+    });
+</script>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

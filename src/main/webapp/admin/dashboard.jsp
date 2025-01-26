@@ -62,27 +62,33 @@
             <div class="position-sticky d-flex justify-content-center">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#dashboard">
+                        <a class="nav-link active" href="dashboard">
                             <i class="fas fa-tachometer-alt me-2"></i>
                             Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#products">
+                        <a class="nav-link" href="admin-product">
                             <i class="fas fa-tshirt me-2"></i>
                             Products
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#orders">
+                        <a class="nav-link" href="order">
                             <i class="fas fa-shopping-cart me-2"></i>
                             Orders
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#customers">
+                        <a class="nav-link" href="user?action=customer">
                             <i class="fas fa-users me-2"></i>
                             Customers
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="../admin/category.jsp">
+                            <i class="fas fa-tags me-2"></i>
+                            Categories
                         </a>
                     </li>
                     <li class="nav-item">
@@ -213,49 +219,11 @@
                 <div
                         class="card-header py-3 d-flex justify-content-between align-items-center"
                 >
-                    <h6 class="m-0 font-weight-bold text-primary">Recent Orders</h6>
-                    <a href="#" class="btn btn-primary btn-sm">View All</a>
+                    <h6 class="m-0 font-weight-bold text-primary">Meduza</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table
-                                class="table table-bordered"
-                                id="ordersTable"
-                                width="100%"
-                                cellspacing="0"
-                        >
-                            <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Customer</th>
-                                <th>Product</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                                <tr>
-                                    <td>${order.id}</td>
-                                    <td>${order.customerName}</td>
-                                    <td>${order.productName}</td>
-                                    <td>$${order.amount}</td>
-                                    <td>
-                          <span
-                                  class="badge bg-${order.status == 'Completed' ? 'success' : order.status == 'Pending' ? 'warning' : 'danger'}"
-                          >
-                                  ${order.status}
-                          </span>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-sm btn-info">View</button>
-                                        <button class="btn btn-sm btn-success">Update</button>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
+                        <img src="../assets/images/ALMZV.jpeg" class="w-100">
                     </div>
                 </div>
             </div>

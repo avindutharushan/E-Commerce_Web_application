@@ -29,8 +29,16 @@ public class OrderServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int userId = Integer.parseInt(req.getParameter("user")); // Get user ID from request
         String shippingAddress = req.getParameter("address"); // Get shipping address from request
+        Connection connection = null;
+        try {
+            connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try  {
+            // Disable auto-commit
+            connection.setAutoCommit(false);
 
-        try (Connection connection = dataSource.getConnection()) {
             // Step 1: Retrieve cart items for the user
             String cartQuery = "SELECT product_id, quantity FROM cart WHERE user_id = ?";
             PreparedStatement cartStmt = connection.prepareStatement(cartQuery);
@@ -57,7 +65,7 @@ public class OrderServlet extends HttpServlet {
                     totalAmount += total;
 
                     // Add to order details
-                    orderDetails.add(new OrderDetailDTO2(productId,name, quantity, price));
+                    orderDetails.add(new OrderDetailDTO2(productId, name, quantity, price));
                 }
             }
 
@@ -94,11 +102,22 @@ public class OrderServlet extends HttpServlet {
             clearCartStmt.setInt(1, userId);
             clearCartStmt.executeUpdate();
 
+            // Commit the transaction
+            connection.commit();
+
             // Redirect to a success page or show a success message
-            req.setAttribute("orderDetails", orderDetails );
+            req.setAttribute("orderDetails", orderDetails);
             req.getRequestDispatcher("pages/orderSuccess.jsp").forward(req, resp);
         } catch (SQLException e) {
             e.printStackTrace();
+            // Rollback the transaction in case of an error
+            try {
+                if (connection != null) {
+                    connection.rollback();
+                }
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
             // Handle error (e.g., redirect to an error page)
             resp.sendRedirect("cart.jsp?error=order not placed");
         }

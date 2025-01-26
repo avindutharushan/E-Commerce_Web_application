@@ -67,7 +67,7 @@
         totalAmount += price * detail.getQuantity();
     %>
     <tr>
-      <td><%= detail.getProductId() %></td>
+      <td><%= detail.getName() %></td>
       <td><%= detail.getQuantity() %></td>
       <td>$<%= String.format("%.2f", price) %></td>
     </tr>
