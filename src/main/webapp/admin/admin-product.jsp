@@ -34,7 +34,9 @@
         }
         .card-dashboard:hover {
             transform: translateY(-5px );
-        }
+        }.active{
+             background-color: #495057;
+         }
     </style>
 </head>
 <body>
@@ -50,13 +52,13 @@
             <div class="position-sticky d-flex justify-content-center">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#dashboard">
+                        <a class="nav-link" href="#dashboard">
                             <i class="fas fa-tachometer-alt me-2"></i>
                             Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#products">
+                        <a class="nav-link active" href="#products">
                             <i class="fas fa-tshirt me-2"></i>
                             Products
                         </a>
