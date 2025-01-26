@@ -1,9 +1,9 @@
-<%@ page import="lk.ijse.ecommerceplatform.dto.CategoryDTO" %>
+<%@ page import="lk.ijse.ecommerceplatform.dto.CustomerDTO" %>
 <%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: shan
   Date: 1/26/25
-  Time: 7:08 PM
+  Time: 7:19 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -12,7 +12,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Meduza Categories</title>
+    <title>Customers - T-Shirt Store Admin</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Font Awesome -->
@@ -28,10 +28,10 @@
         }
         .nav-link:hover {
             background-color: #495057;
-        }.active{
-             background-color: #495057;
-         }
-
+        }
+        .active{
+            background-color: #495057;
+        }
     </style>
 </head>
 <body>
@@ -46,7 +46,7 @@
             <div class="position-sticky d-flex justify-content-center">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="#dashboard">
+                        <a class="nav-link active" href="#dashboard">
                             <i class="fas fa-tachometer-alt me-2"></i>
                             Dashboard
                         </a>
@@ -58,18 +58,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#categories">
-                            <i class="fas fa-tags me-2"></i>
-                            Categories
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="#orders">
                             <i class="fas fa-shopping-cart me-2"></i>
                             Orders
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="#customers">
                             <i class="fas fa-users me-2"></i>
                             Customers
@@ -94,13 +88,10 @@
         <!-- Main Content -->
         <main class="col-md-10 ms-sm-auto px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1>Categories</h1>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
-                    <i class="fas fa-plus me-2"></i>Add Category
-                </button>
+                <h1>Customers</h1>
             </div>
 
-            <!-- Category Table -->
+            <!-- Customer Table -->
             <div class="card shadow mb-4">
                 <div class="card-body">
                     <div class="table-responsive">
@@ -108,29 +99,28 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Category Name</th>
-                                <th>Description</th>
-                                <th>Products Count</th>
-                                <th>Status</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Registered Date</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             <%
-                                List<CategoryDTO> categoryList = (List<CategoryDTO>) request.getAttribute("categoryList");
-                                if ( categoryList != null && !categoryList.isEmpty()) {
-                                    for (int i = 0; i < categoryList.size(); i++) {
-                                        CategoryDTO category = categoryList.get(i);
+                                List<CustomerDTO> customerList = (List<CustomerDTO>) request.getAttribute("customerList");
+                                if (customerList != null && !customerList.isEmpty()) {
+                                    for (int i = 0; i < customerList.size(); i++) {
+                                        CustomerDTO customer = customerList.get(i);
                             %>
                             <tr>
                                 <td><%= i + 1 %></td>
-                                <td><%= category.getName() %></td>
-                                <td><%= category.getDescription() %></td>
-                                <td><%= category.getDescription() %></td>
-
-                                <td class="text-center d-flex">
-                                    <button class="btn btn-sm btn-info me-2" onclick="editCategory(<%= category.getId() %>)">View</button>
-                                    <a href="deleteCategory?id=<%= category.getId() %>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this category?');">Delete</a>
+                                <td><%= customer.getName() %></td>
+                                <td><%= customer.getEmail() %></td>
+                                <td>< <td><%= customer.getAddress() %></td>
+                                <td>
+                                    <a href="viewCustomer.jsp?id=<%= customer.getUserId() %>" class="btn btn-sm btn-info">View</a>
+                                    <a href="deleteCustomer?id=<%= customer.getUserId() %>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this customer?');">Delete</a>
                                 </td>
                             </tr>
                             <%
@@ -138,7 +128,7 @@
                             } else {
                             %>
                             <tr>
-                                <td colspan="6" class="text-center">No categories found.</td>
+                                <td colspan="6" class="text-center">No customers found.</td>
                             </tr>
                             <%
                                 }
@@ -149,38 +139,6 @@
                 </div>
             </div>
         </main>
-    </div>
-</div>
-
-<!-- Add Category Modal -->
-<div class="modal fade" id="addCategoryModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add New Category</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <form action="addCategory" method="POST">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="categoryName" class="form-label">Category Name</label>
-                        <input type="text" class="form-control" id="categoryName" name="name" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="categoryDescription" class="form-label">Description</label>
-                        <textarea class="form-control" id="categoryDescription" name="description" rows="3"></textarea>
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="categoryStatus" name="active" checked />
-                        <label class="form-check-label" for="categoryStatus">Active</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save Category</button>
-                </div>
-            </form>
-        </div>
     </div>
 </div>
 
