@@ -150,6 +150,13 @@
     </style>
 </head>
 <body>
+<%
+    UserDTO user = (UserDTO) session.getAttribute("user");
+    String userName = user != null ? user.getName() : "";
+    String userEmail = user != null ? user.getEmail() : "";
+    Integer userId = user != null ? user.getUserId() : null;
+
+%>
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg sticky-top p-0">
     <div class="container-fluid mx-5">
@@ -183,7 +190,7 @@
                 </li>
             </ul>
             <div class="d-flex">
-                <a href="pages/cart" class="btn me-0">
+                <a href="cart?user=<%=userId%>" class="btn me-0">
                     <i class="bi bi-cart fs-4"></i>
                 </a>
                 <a class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
@@ -197,8 +204,13 @@
 <!-- Hero Section -->
 <section class="hero-section">
     <div class="main-container">
-        <video class="position-absolute p-0 mb-0" style="z-index: -1; left: 50%; transform: translateX(-50%); width: 100vw;" src="assets/videos/intro.mp4" autoplay muted></video>
-        <div class="hero-content mt-0 m-5" style="background-color: transparent; z-index: 1; color: white; padding-top: 180px !important; padding: 50px;">
+        <video class="position-absolute p-0 mb-0"
+               style="z-index: -1; left: 50%; transform: translateX(-50%); width: 100vw;"
+               src="assets/videos/intro.mp4"
+               autoplay
+               muted
+               loop>
+        </video>        <div class="hero-content mt-0 m-5" style="background-color: transparent; z-index: 1; color: white; padding-top: 180px !important; padding: 50px;">
             <h1 class="brand display-4 fw-bold mb-4">Meduza</h1>
             <p class="lead mb-4">Clothing Collections</p>
             <p class="mb-5" style="text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5)">
@@ -284,13 +296,13 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body p-0">
-        <% UserDTO user = (UserDTO) session.getAttribute("user");
+        <%
             if (user != null) { %>
         <!-- Logged In View -->
         <div class="profile-header">
             <img src="<%=user.getImage_url()%>" alt="Profile Picture" class="profile-avatar" />
-            <h5 class="mb-1"><%= user.getName() %></h5>
-            <p class="text-muted mb-0"><%= user.getEmail() %></p>
+            <h5 class="mb-1"><%= userName %></h5>
+            <p class="text-muted mb-0"><%= userEmail %></p>
 
         <% if(user.isActive()==true){%>
             <i class="bi bi-circle-fill d-flex justify-content-center" style="color:#18e718"><p style="margin: -3px 0 0 5px">Active</p></i>

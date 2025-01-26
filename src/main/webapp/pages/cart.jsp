@@ -1,4 +1,8 @@
-<%--
+<%@ page import="lk.ijse.ecommerceplatform.dto.UserDTO" %>
+<%@ page import="lk.ijse.ecommerceplatform.dto.CartDTO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="lk.ijse.ecommerceplatform.dto.CartDTO2" %><%--
   Created by IntelliJ IDEA.
   User: shan
   Date: 1/20/25
@@ -160,6 +164,18 @@
     </style>
 </head>
 <body>
+<%
+    UserDTO currentUser = (UserDTO) session.getAttribute("user");
+    String userName = currentUser != null ? currentUser.getName() : "";
+    String userEmail = currentUser != null ? currentUser.getEmail() : "";
+    Integer userId = currentUser != null ? currentUser.getUserId() : null;
+
+    List<CartDTO2> products = (List<CartDTO2>) request.getAttribute("products");
+    if (products == null) {
+        products = new ArrayList<>();
+    }
+
+%>
 <nav class="navbar navbar-expand-lg sticky-top p-0">
     <div class="container-fluid mx-5">
         <a class="navbar-brand d-flex" href="#"
@@ -236,43 +252,78 @@
                 </tr>
                 </thead>
                 <tbody>
+                <%
+                    double subtotal = 0;
+                    for (CartDTO2 product : products) {
+                        double price = product.getProductDTO().getPrice();
+                        int quantity = product.getQty();
+                        double total = price * quantity;
+                        subtotal += total;
+                %>
                 <tr>
                     <td>
                         <div class="d-flex align-items-center">
-                            <img
-                                    src="../assets/images/ALMZV.jpeg"
-                                    alt="Magazine Rack"
-                                    class="product-img me-3"
-                            />
+                            <img src="<%= product.getImsge_url() %>" alt="<%= product.getProductDTO().getName() %>" class="product-img me-3" />
                             <div>
-                                <div>Analog Magazine Rack</div>
-                                <small class="text-muted">Red</small>
+                                <div><%= product.getProductDTO().getName() %></div>
+                                <small class="text-muted"><%= product.getProductDTO().getDescription() %></small>
                             </div>
                         </div>
                     </td>
-                    <td>$120</td>
-                    <td>
-                        <button class="btn btn-sm">-</button>
-                        <input type="text" value="2" class="quantity-input" />
-                        <button class="btn btn-sm">+</button>
+                    <td>$<%= String.format("%.2f", price) %></td>
+                    <td >
+                        <form method="post" action="cart">
+                            <input type="hidden" name="user" value="<%= userId %>">
+                            <input type="hidden" name="cart" value="<%= product.getCart_id() %>">
+                            <input type="hidden" name="product" value="<%= product.getProduct_id() %>">
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" value="update" name="action" class="btn btn-sm ms-3">+</button>
+                        </form>
+                        <input type="text" value="<%= quantity %>" class="quantity-input" readonly />
+                        <form method="post" action="cart">
+                            <input type="hidden" name="user" value="<%= userId %>">
+                            <input type="hidden" name="cart" value="<%= product.getCart_id() %>">
+                            <input type="hidden" name="product" value="<%= product.getProduct_id() %>">
+                            <input type="hidden" name="quantity" value="-1">
+                            <button type="submit" value="update" name="action" class="btn btn-sm ms-3">-</button>
+                        </form>
                     </td>
-                    <td>$240</td>
+                    <td>$<%= String.format("%.2f", total) %></td>
                     <td>
-                        <button class="remove-btn">
-                            <i class="bi bi-x"></i>
-                        </button>
+                        <form method="post" action="cart">
+                            <input type="hidden" name="user" value="<%= userId %>">
+                            <input type="hidden" name="cart" value="<%= product.getCart_id() %>">
+                            <input type="hidden" name="product" value="<%= product.getProduct_id() %>">
+                            <button type="submit" value="remove" name="action" class="remove-btn">
+                                <i class="bi bi-x"></i>
+                            </button>
+                        </form>
                     </td>
                 </tr>
+                <%
+                    }
+                %>
                 </tbody>
             </table>
+            <%
+                String error = request.getParameter("error");
+                if (error != null && !error.isEmpty()) {
+            %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <%= error %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <% } %>
         </div>
 
         <div class="col-md-4">
-            <div class="order-summary">
+            <form action="order" method="post" class="order-summary">
                 <h5 class="mb-4">Order Summary</h5>
+                <input type="hidden" name="address" value="<%= currentUser.getAddress() %>">
+                <input type="hidden" name="user" value="<%= userId %>">
                 <div class="d-flex justify-content-between mb-2">
                     <span>Subtotal</span>
-                    <span>$418</span>
+                    <span>$<%= String.format("%.2f", subtotal) %></span>
                 </div>
                 <div class="d-flex justify-content-between mb-2">
                     <span>Shipping</span>
@@ -281,10 +332,10 @@
                 <br />
                 <div class="d-flex justify-content-between mb-4">
                     <strong>Total</strong>
-                    <strong>$418</strong>
+                    <strong>$<%= String.format("%.2f", subtotal) %></strong>
                 </div>
-                <button class="checkout-btn">Checkout</button>
-            </div>
+                <button type="submit"  class="checkout-btn">Checkout</button>
+            </form>
         </div>
     </div>
 </div>
@@ -296,12 +347,24 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body p-0">
-        <% if (session.getAttribute("user") != null) { %>
+        <%
+            if (currentUser != null) { %>
         <!-- Logged In View -->
         <div class="profile-header">
-            <img src="/api/placeholder/80/80" alt="Profile Picture" class="profile-avatar" />
-            <h5 class="mb-1"><%= session.getAttribute("userName") %></h5>
-            <p class="text-muted mb-0"><%= session.getAttribute("userEmail") %></p>
+            <img src="<%=currentUser.getImage_url()%>" alt="Profile Picture" class="profile-avatar" />
+            <h5 class="mb-1"><%= userName %></h5>
+            <p class="text-muted mb-0"><%= userEmail %></p>
+
+            <% if(currentUser.isActive()==true){%>
+            <i class="bi bi-circle-fill d-flex justify-content-center" style="color:#18e718"><p style="margin: -3px 0 0 5px">Active</p></i>
+            <%
+            }else{
+            %>
+            <i class="bi bi-circle-fill d-flex justify-content-center" style="color: red"><p style="margin: -3px 0 0 5px">Deactivated</p></i>
+            <%
+                }
+            %>
+
         </div>
         <ul class="profile-menu">
             <li><a href="#"><i class="bi bi-person"></i> My Profile</a></li>
@@ -310,7 +373,7 @@
             <li><a href="#"><i class="bi bi-geo-alt"></i> Addresses</a></li>
             <li><a href="#"><i class="bi bi-credit-card"></i> Payment Methods</a></li>
             <li><a href="#"><i class="bi bi-gear"></i> Settings</a></li>
-            <li><a href="logout.jsp" class="text-danger"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+            <li><a href="user?action=logout" class="text-danger"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
         </ul>
         <% } else { %>
         <!-- Logged Out View -->
@@ -322,7 +385,7 @@
             <p class="text-muted text-center">Sign in to access your account</p>
         </div>
         <div class="login-form p-3">
-            <form action="loginProcess.jsp" method="POST">
+            <form action="user" method="get">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
                     <input type="email" class="form-control" id="email" name="email" required />
@@ -331,11 +394,11 @@
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" id="password" name="password" required />
                 </div>
-                <button type="submit" class="btn btn-dark w-100 mb-2">Login</button>
-                <button type="button" class="btn btn-outline-dark w-100" onclick="window.location.href='register.jsp'">Create Account</button>
+                <button type="submit" name="action" value="login" class="btn btn-dark w-100 mb-2">Login</button>
+                <button type="button" class="btn btn-outline-dark w-100" onclick="window.location.href='pages/register.jsp'">Create Account</button>
             </form>
             <div class="text-center mt-3">
-                <a href="forget-password.jsp" class="text-muted">Forgot password?</a>
+                <a href="pages/forget-password.jsp" class="text-muted">Forgot password?</a>
             </div>
         </div>
         <% } %>
